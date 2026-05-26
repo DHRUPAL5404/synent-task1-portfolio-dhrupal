@@ -5,14 +5,14 @@
    ========================================== */
 :root {
   /* Colors */
-  --bg-dark: #0b111e;
-  --bg-dark-offset: #111a2e;
+  --bg-dark: #070d19; /* Deeper background for a premium, rich contrast */
+  --bg-dark-offset: #0c1527;
   --bg-light: #ffffff;
   --bg-light-offset: #f8fafc;
   
   --accent-orange: #ff6b35;
-  --accent-orange-hover: #e85a24;
-  --accent-orange-glow: rgba(255, 107, 53, 0.25);
+  --accent-orange-hover: #f05318;
+  --accent-orange-glow: rgba(255, 107, 53, 0.15);
   --accent-blue-glow: rgba(30, 41, 59, 0.7);
 
   --text-dark: #0f172a;
@@ -20,23 +20,23 @@
   --text-light: #f8fafc;
   --text-light-muted: #94a3b8;
   
-  --border-light: #e2e8f0;
-  --border-dark: #1e293b;
+  --border-light: rgba(226, 232, 240, 0.8);
+  --border-dark: rgba(30, 41, 59, 0.5);
 
   /* Typography */
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   
   /* Transitions */
-  --transition-fast: 0.2s ease;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 0 20px var(--accent-orange-glow);
+  /* Shadows - Layered for realistic ambient lighting */
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 16px 40px -10px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.02);
+  --shadow-lg: 0 24px 60px -15px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.03);
+  --shadow-glow: 0 8px 24px rgba(255, 107, 53, 0.25);
 }
 
 /* ==========================================
@@ -50,6 +50,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* Offset for sticky navbar to prevent overlapping headings */
   font-size: 16px;
 }
 
@@ -122,37 +123,71 @@ button, .btn {
   padding: 0 2rem;
 }
 
-/* Buttons */
+/* Buttons styling with premium shadows and smooth hover effects */
 .btn-primary {
-  background-color: var(--accent-orange);
+  background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
   color: white;
-  padding: 0.8rem 1.8rem;
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
   box-shadow: var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff8c42, var(--accent-orange));
+  z-index: -1;
+  transition: opacity var(--transition-normal);
+  opacity: 0;
 }
 
 .btn-primary:hover {
   background-color: var(--accent-orange-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px var(--accent-orange-glow);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(255, 107, 53, 0.4);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary:active {
+  transform: translateY(-1px) scale(1);
 }
 
 .btn-secondary {
   border: 2px solid var(--border-dark);
   color: var(--text-light);
-  padding: 0.8rem 1.8rem;
-  background: transparent;
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(5px);
+  transition: all var(--transition-normal);
 }
 
 .btn-secondary:hover {
   border-color: var(--accent-orange);
-  color: var(--accent-orange);
-  transform: translateY(-3px);
+  color: white;
+  background: var(--accent-orange);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(255, 107, 53, 0.2);
 }
 
-/* Section Header styling */
+.btn-secondary:active {
+  transform: translateY(-1px) scale(1);
+}
+
+/* Section Header styling with dynamic divider hover animation */
 .section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 4.5rem;
 }
 
 .section-header h2 {
@@ -160,7 +195,7 @@ button, .btn {
   color: var(--text-dark);
   position: relative;
   display: inline-block;
-  padding-bottom: 1rem;
+  padding-bottom: 1.2rem;
 }
 
 .section-header h2::after {
@@ -169,10 +204,15 @@ button, .btn {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  width: 50px;
   height: 4px;
-  background-color: var(--accent-orange);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-orange), #ff9f43);
+  border-radius: 10px;
+  transition: width var(--transition-normal), background var(--transition-normal);
+}
+
+.section-header:hover h2::after {
+  width: 100px;
 }
 
 .section-header p {
@@ -193,11 +233,12 @@ button, .btn {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: rgba(11, 17, 30, 0.95);
-  backdrop-filter: blur(10px);
+  background-color: rgba(7, 13, 25, 0.95);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding: 1.25rem 0;
   transition: var(--transition-normal);
+  box-shadow: var(--shadow-sm);
 }
 
 .navbar .container {
@@ -214,13 +255,18 @@ button, .btn {
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+  transform: scale(1.03);
 }
 
 .logo span {
   color: var(--accent-orange);
 }
 
-/* Nav links for desktop */
+/* Nav links for desktop with elegant hover sliding lines */
 .nav-links {
   display: flex;
   align-items: center;
@@ -229,26 +275,31 @@ button, .btn {
 
 .nav-links a {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-light-muted);
   position: relative;
   padding: 0.5rem 0;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  display: inline-block;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: var(--text-light);
+  color: white;
+  transform: translateY(-2px);
 }
 
 .nav-links a::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
   width: 0;
   height: 2px;
-  background-color: var(--accent-orange);
-  transition: var(--transition-fast);
+  background: linear-gradient(90deg, var(--accent-orange), #ff9f43);
+  transition: all var(--transition-normal);
+  transform: translateX(-50%);
+  border-radius: 10px;
 }
 
 .nav-links a:hover::after {
@@ -325,6 +376,7 @@ button, .btn {
 
 .hero-content {
   z-index: 2;
+  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .badge {
@@ -400,6 +452,18 @@ button, .btn {
   justify-content: center;
   align-items: center;
   z-index: 2;
+  animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-avatar-frame {
@@ -465,14 +529,15 @@ button, .btn {
    ABOUT ME SECTION (LIGHT THEMED)
    ========================================== */
 .about {
-  padding: 7rem 0;
+  padding: 8.5rem 0; /* Breathable professional spacing */
   background-color: var(--bg-light);
+  position: relative;
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 4rem;
+  gap: 4.5rem;
   align-items: start;
 }
 
@@ -492,12 +557,21 @@ button, .btn {
   margin-bottom: 0;
 }
 
+/* Modern Glassmorphic Card Styling for Details Box */
 .about-details-card {
-  background-color: var(--bg-light-offset);
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
   padding: 2.5rem;
   box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.about-details-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 107, 53, 0.25);
 }
 
 .about-details-card h4 {
@@ -535,8 +609,10 @@ button, .btn {
    SKILLS SECTION (LIGHT THEMED)
    ========================================== */
 .skills {
-  padding: 7rem 0;
+  padding: 8.5rem 0; /* Breathable spacing */
   background-color: var(--bg-light-offset);
+  position: relative;
+  box-shadow: inset 0 20px 40px -20px rgba(15, 23, 42, 0.05), inset 0 -20px 40px -20px rgba(15, 23, 42, 0.05);
 }
 
 .skills-grid {
@@ -545,36 +621,83 @@ button, .btn {
   gap: 2rem;
 }
 
+/* Modern Card Layout for Skill Cards with Glassmorphism, sweep animation and 3D hover effects */
 .skill-card {
-  background-color: var(--bg-light);
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
   padding: 2.5rem 2rem;
   text-align: center;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elegant light sheen swipe effect on hover */
+.skill-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 55%
+  );
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.skill-card:hover::after {
+  left: 100%;
+  top: 100%;
+  opacity: 1;
+}
+
+.skill-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  border-color: rgba(255, 107, 53, 0.4);
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.12), var(--shadow-lg);
 }
 
 .skill-icon-box {
   width: 70px;
   height: 70px;
-  border-radius: 12px;
+  border-radius: 16px;
   background-color: rgba(255, 107, 53, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
 }
 
 .skill-icon-box svg {
   width: 36px;
   height: 36px;
   fill: var(--accent-orange);
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
+}
+
+.skill-card:hover .skill-icon-box {
+  background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
+  transform: rotateY(180deg) scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+}
+
+.skill-card:hover .skill-icon-box svg {
+  fill: white;
+  transform: scale(1.1);
 }
 
 .skill-card h3 {
@@ -609,7 +732,7 @@ button, .btn {
   background-color: var(--accent-orange);
   border-radius: 10px;
   transition: var(--transition-slow);
-  width: 0%; /* Set to animate on load or hover styling */
+  width: 0%; /* Fills dynamically based on attributes */
 }
 
 /* Progress ratios details */
@@ -629,34 +752,24 @@ button, .btn {
 .skill-card[data-skill="java"] .progress-bar-fill { width: 80%; }
 .skill-card[data-skill="dbms"] .progress-bar-fill { width: 75%; }
 
-/* Card hover animation */
-.skill-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(255, 107, 53, 0.4);
-  box-shadow: 0 15px 35px rgba(255, 107, 53, 0.1);
-}
-
-.skill-card:hover .skill-icon-box {
-  background-color: var(--accent-orange);
-}
-
-.skill-card:hover .skill-icon-box svg {
-  fill: white;
-  transform: scale(1.1);
+.skill-card:hover .progress-bar-fill {
+  background: linear-gradient(90deg, var(--accent-orange), #ff8c42);
+  box-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
 }
 
 /* ==========================================
    CONTACT SECTION (LIGHT THEMED)
    ========================================== */
 .contact {
-  padding: 7rem 0;
+  padding: 8.5rem 0; /* Breathable spacing */
   background-color: var(--bg-light);
+  position: relative;
 }
 
 .contact-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  gap: 4rem;
+  gap: 4.5rem;
   align-items: start;
 }
 
@@ -666,36 +779,51 @@ button, .btn {
   gap: 1.8rem;
 }
 
+/* Modern Card Layout for Contact Items */
 .contact-info-item {
-  background-color: var(--bg-light-offset);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
 }
 
 .contact-info-item:hover {
-  transform: translateX(5px);
-  border-color: rgba(255, 107, 53, 0.3);
+  transform: translateY(-3px) translateX(5px);
+  border-color: rgba(255, 107, 53, 0.35);
+  box-shadow: var(--shadow-md);
 }
 
 .contact-info-icon {
   width: 50px;
   height: 50px;
   background-color: rgba(255, 107, 53, 0.08);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all var(--transition-normal);
+}
+
+.contact-info-item:hover .contact-info-icon {
+  background-color: var(--accent-orange);
+  transform: scale(1.05);
 }
 
 .contact-info-icon svg {
   width: 24px;
   height: 24px;
   fill: var(--accent-orange);
+  transition: all var(--transition-normal);
+}
+
+.contact-info-item:hover .contact-info-icon svg {
+  fill: white;
 }
 
 .contact-info-details h4 {
@@ -710,13 +838,20 @@ button, .btn {
   color: var(--text-dark);
 }
 
-/* Contact Form details */
+/* Modern Card Layout for Contact Form with Glassmorphism */
 .contact-form {
-  background-color: var(--bg-light-offset);
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
   padding: 3rem 2.5rem;
   box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.contact-form:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 107, 53, 0.15);
 }
 
 .form-group-row {
@@ -745,19 +880,24 @@ button, .btn {
 .form-control {
   width: 100%;
   padding: 0.9rem 1.1rem;
-  border: 1px solid var(--border-light);
+  border: 1.5px solid var(--border-light);
   background-color: var(--bg-light);
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--text-dark);
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
+}
+
+.form-control:hover {
+  border-color: rgba(255, 107, 53, 0.4);
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--accent-orange);
-  box-shadow: 0 0 0 3px var(--accent-orange-glow);
+  background-color: white;
+  box-shadow: 0 0 0 4px var(--accent-orange-glow);
 }
 
 textarea.form-control {
