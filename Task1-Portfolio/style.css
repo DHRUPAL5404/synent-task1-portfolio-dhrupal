@@ -833,17 +833,26 @@ textarea.form-control {
   }
 }
 
-/* Tablets and small screens */
+/* Tablets and small screens (Portrait) */
 @media (max-width: 768px) {
-  /* Common adjustments */
+  /* Global Spacing Adjustments */
   .section-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
   
   .section-header h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   
+  .section-header p {
+    font-size: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .about, .skills, .contact {
+    padding: 4.5rem 0;
+  }
+
   /* Navigation mobile menu using pure CSS checkbox hack */
   .hamburger-btn {
     display: flex;
@@ -895,14 +904,15 @@ textarea.form-control {
 
   /* Hero adjustments */
   .hero {
-    padding-top: 120px;
-    padding-bottom: 4rem;
+    padding-top: 110px;
+    padding-bottom: 4.5rem;
+    min-height: auto;
   }
   
   .hero-grid {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 3rem;
+    gap: 2.5rem;
   }
   
   .hero-content {
@@ -914,10 +924,14 @@ textarea.form-control {
   .hero-desc {
     margin-left: auto;
     margin-right: auto;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
   }
   
   .hero-actions {
     justify-content: center;
+    width: 100%;
+    max-width: 400px;
   }
   
   .hero-visual {
@@ -925,42 +939,43 @@ textarea.form-control {
   }
   
   .profile-avatar-frame {
-    width: 260px;
-    height: 260px;
+    width: 220px;
+    height: 220px;
   }
   
   /* About adjustments */
-  .about {
-    padding: 5rem 0;
-  }
-  
   .about-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
   
-  /* Skills adjustments */
-  .skills {
-    padding: 5rem 0;
+  .about-details-card {
+    padding: 2rem;
   }
   
+  /* Skills grid wrapping fallback */
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
   /* Contact adjustments */
-  .contact {
-    padding: 5rem 0;
-  }
-  
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
   }
   
   .form-group-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
+  
+  .contact-form {
+    padding: 2.5rem 2rem;
+  }
 }
 
-/* Extra small mobile screens */
+/* Extra small mobile screens (Phones) */
 @media (max-width: 480px) {
   html {
     font-size: 15px;
@@ -969,28 +984,112 @@ textarea.form-control {
   .container {
     padding: 0 1.25rem;
   }
-  
+
+  .about, .skills, .contact {
+    padding: 3.5rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  /* Hero Section adjustments on small screens */
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 3.5rem;
+  }
+
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
   }
   
   .hero-subtitle {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    margin-bottom: 1.8rem;
   }
   
   .hero-actions {
     flex-direction: column;
     width: 100%;
-    gap: 1rem;
+    gap: 0.8rem;
   }
   
   .hero-actions .btn {
     width: 100%;
   }
-  
+
+  .profile-avatar-frame {
+    width: 180px;
+    height: 180px;
+  }
+
+  .profile-avatar-inner {
+    padding: 1.2rem;
+  }
+
+  .profile-avatar-inner svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Stack About Me quick info rows vertically to prevent truncation */
+  .about-details-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .about-details-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 0.75rem 0;
+  }
+
+  .detail-row span.label {
+    font-size: 0.9rem;
+  }
+
+  .detail-row span.val {
+    text-align: left;
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  /* Skills grid cards optimized padding */
+  .skill-card {
+    padding: 2rem 1.5rem;
+  }
+
+  /* Contact Form spacing and clipping prevention */
   .contact-form {
     padding: 2rem 1.25rem;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .contact-info-item {
+    padding: 1.25rem;
+  }
+
+  .contact-info-details p {
+    font-size: 0.95rem;
   }
 }
